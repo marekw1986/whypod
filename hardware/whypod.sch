@@ -8119,7 +8119,6 @@ http://dangerousprototypes.com</description>
 <part name="GND1" library="supply1" deviceset="GND" device=""/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
 <part name="GND3" library="supply1" deviceset="GND" device=""/>
-<part name="R3" library="rcl" deviceset="R-EU_" device="R0603" value="0R"/>
 <part name="C1" library="rcl" deviceset="C-EU" device="C0603" value="22 pF"/>
 <part name="C2" library="rcl" deviceset="C-EU" device="C0603" value="22 pF"/>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
@@ -8138,6 +8137,14 @@ http://dangerousprototypes.com</description>
 <part name="X2" library="con-usb" deviceset="USB" device="-A-S" value="USB-A-S"/>
 <part name="IC1" library="dp_devices" deviceset="IC_USBLC6-2" device=""/>
 <part name="GND10" library="supply1" deviceset="GND" device=""/>
+<part name="C6" library="rcl" deviceset="C-EU" device="C0603"/>
+<part name="GND11" library="supply1" deviceset="GND" device=""/>
+<part name="C7" library="rcl" deviceset="C-EU" device="C0603"/>
+<part name="GND12" library="supply1" deviceset="GND" device=""/>
+<part name="C8" library="rcl" deviceset="C-EU" device="C0603"/>
+<part name="GND13" library="supply1" deviceset="GND" device=""/>
+<part name="C9" library="rcl" deviceset="C-EU" device="C0603"/>
+<part name="GND14" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -8149,7 +8156,6 @@ http://dangerousprototypes.com</description>
 <instance part="GND1" gate="1" x="406.4" y="-12.7"/>
 <instance part="GND2" gate="1" x="201.93" y="-45.72"/>
 <instance part="GND3" gate="1" x="213.36" y="-45.72"/>
-<instance part="R3" gate="G$1" x="269.24" y="2.54"/>
 <instance part="C1" gate="G$1" x="180.34" y="132.08"/>
 <instance part="C2" gate="G$1" x="172.72" y="132.08"/>
 <instance part="GND4" gate="1" x="180.34" y="114.3"/>
@@ -8168,6 +8174,14 @@ http://dangerousprototypes.com</description>
 <instance part="X2" gate="G$1" x="309.88" y="142.24"/>
 <instance part="IC1" gate="G$1" x="264.16" y="152.4" rot="R180"/>
 <instance part="GND10" gate="1" x="289.56" y="134.62"/>
+<instance part="C6" gate="G$1" x="177.292" y="213.36"/>
+<instance part="GND11" gate="1" x="177.292" y="203.2"/>
+<instance part="C7" gate="G$1" x="184.912" y="213.36"/>
+<instance part="GND12" gate="1" x="184.912" y="203.2"/>
+<instance part="C8" gate="G$1" x="192.532" y="213.36"/>
+<instance part="GND13" gate="1" x="192.532" y="203.2"/>
+<instance part="C9" gate="G$1" x="200.152" y="213.36"/>
+<instance part="GND14" gate="1" x="200.152" y="203.2"/>
 </instances>
 <busses>
 </busses>
@@ -8241,6 +8255,26 @@ http://dangerousprototypes.com</description>
 <wire x1="287.02" y1="144.78" x2="289.56" y2="144.78" width="0.1524" layer="91"/>
 <wire x1="289.56" y1="144.78" x2="289.56" y2="137.16" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="C6" gate="G$1" pin="2"/>
+<pinref part="GND11" gate="1" pin="GND"/>
+<wire x1="177.292" y1="205.74" x2="177.292" y2="208.28" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C7" gate="G$1" pin="2"/>
+<pinref part="GND12" gate="1" pin="GND"/>
+<wire x1="184.912" y1="205.74" x2="184.912" y2="208.28" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C8" gate="G$1" pin="2"/>
+<pinref part="GND13" gate="1" pin="GND"/>
+<wire x1="192.532" y1="205.74" x2="192.532" y2="208.28" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C9" gate="G$1" pin="2"/>
+<pinref part="GND14" gate="1" pin="GND"/>
+<wire x1="200.152" y1="205.74" x2="200.152" y2="208.28" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="DB0" class="0">
 <segment>
@@ -8273,9 +8307,9 @@ http://dangerousprototypes.com</description>
 <label x="381" y="40.64" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
+<label x="279.4" y="20.32" size="1.4224" layer="95" xref="yes"/>
 <pinref part="U$2" gate="G$1" pin="PD0"/>
-<wire x1="246.38" y1="20.32" x2="256.54" y2="20.32" width="0.1524" layer="91"/>
-<label x="256.54" y="20.32" size="1.4224" layer="95" xref="yes"/>
+<wire x1="279.4" y1="20.32" x2="246.38" y2="20.32" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="DB3" class="0">
@@ -8568,9 +8602,9 @@ http://dangerousprototypes.com</description>
 <label x="411.48" y="10.16" size="1.4224" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="R3" gate="G$1" pin="2"/>
-<wire x1="274.32" y1="2.54" x2="279.4" y2="2.54" width="0.1524" layer="91"/>
 <label x="279.4" y="2.54" size="1.4224" layer="95" xref="yes"/>
+<pinref part="U$2" gate="G$1" pin="PD7"/>
+<wire x1="246.38" y1="2.54" x2="279.4" y2="2.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="REST" class="0">
@@ -8614,13 +8648,6 @@ http://dangerousprototypes.com</description>
 <pinref part="U$2" gate="G$1" pin="PD12"/>
 <wire x1="246.38" y1="-10.16" x2="256.54" y2="-10.16" width="0.1524" layer="91"/>
 <label x="256.54" y="-10.16" size="1.4224" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="N$5" class="0">
-<segment>
-<pinref part="U$2" gate="G$1" pin="PD7"/>
-<pinref part="R3" gate="G$1" pin="1"/>
-<wire x1="264.16" y1="2.54" x2="246.38" y2="2.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="PH1" class="0">
@@ -8758,9 +8785,25 @@ http://dangerousprototypes.com</description>
 <segment>
 <wire x1="165.1" y1="218.44" x2="169.672" y2="218.44" width="0.1524" layer="91"/>
 <pinref part="C5" gate="G$1" pin="1"/>
-<wire x1="169.672" y1="218.44" x2="182.88" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="169.672" y1="218.44" x2="177.292" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="177.292" y1="218.44" x2="184.912" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="184.912" y1="218.44" x2="192.532" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="192.532" y1="218.44" x2="200.152" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="200.152" y1="218.44" x2="223.52" y2="218.44" width="0.1524" layer="91"/>
 <wire x1="169.672" y1="215.9" x2="169.672" y2="218.44" width="0.1524" layer="91"/>
 <junction x="169.672" y="218.44"/>
+<pinref part="C6" gate="G$1" pin="1"/>
+<wire x1="177.292" y1="215.9" x2="177.292" y2="218.44" width="0.1524" layer="91"/>
+<junction x="177.292" y="218.44"/>
+<pinref part="C7" gate="G$1" pin="1"/>
+<wire x1="184.912" y1="215.9" x2="184.912" y2="218.44" width="0.1524" layer="91"/>
+<junction x="184.912" y="218.44"/>
+<pinref part="C8" gate="G$1" pin="1"/>
+<wire x1="192.532" y1="215.9" x2="192.532" y2="218.44" width="0.1524" layer="91"/>
+<junction x="192.532" y="218.44"/>
+<pinref part="C9" gate="G$1" pin="1"/>
+<wire x1="200.152" y1="215.9" x2="200.152" y2="218.44" width="0.1524" layer="91"/>
+<junction x="200.152" y="218.44"/>
 </segment>
 </net>
 <net name="_5V" class="0">
@@ -8788,6 +8831,55 @@ http://dangerousprototypes.com</description>
 <wire x1="294.64" y1="147.32" x2="294.64" y2="139.7" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="I/O_1"/>
 <wire x1="294.64" y1="139.7" x2="287.02" y2="139.7" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="LCD_BACKLIGHT" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="PC6"/>
+<wire x1="246.38" y1="48.26" x2="256.54" y2="48.26" width="0.1524" layer="91"/>
+<label x="256.54" y="48.26" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="SDIO_D0" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="PC8"/>
+<wire x1="246.38" y1="43.18" x2="256.54" y2="43.18" width="0.1524" layer="91"/>
+<label x="256.54" y="43.18" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="SDIO_D1" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="PC9"/>
+<wire x1="246.38" y1="40.64" x2="256.54" y2="40.64" width="0.1524" layer="91"/>
+<label x="256.54" y="40.64" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="SDIO_D2" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="PC10"/>
+<wire x1="246.38" y1="38.1" x2="256.54" y2="38.1" width="0.1524" layer="91"/>
+<label x="256.54" y="38.1" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="SDIO_D3" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="PC11"/>
+<wire x1="246.38" y1="35.56" x2="256.54" y2="35.56" width="0.1524" layer="91"/>
+<label x="256.54" y="35.56" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="SDIO_CLK" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="PC12"/>
+<wire x1="246.38" y1="33.02" x2="256.54" y2="33.02" width="0.1524" layer="91"/>
+<label x="256.54" y="33.02" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="SDIO_CMD" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="PD2"/>
+<wire x1="246.38" y1="15.24" x2="256.54" y2="15.24" width="0.1524" layer="91"/>
+<label x="256.54" y="15.24" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 </nets>
