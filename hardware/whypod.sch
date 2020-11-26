@@ -8966,10 +8966,10 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <part name="R9" library="rcl" deviceset="R-EU_" device="R0402"/>
 <part name="R10" library="rcl" deviceset="R-EU_" device="R0603"/>
 <part name="R11" library="rcl" deviceset="R-EU_" device="R0603"/>
-<part name="JP3" library="pinhead-2" deviceset="PINHD-1X06" device="_2.54-SMD-90°"/>
-<part name="GND17" library="supply1" deviceset="GND" device=""/>
 <part name="J1" library="SparkFun-Connectors" deviceset="AUDIO_JACK_TRRS" device="SMD_RA"/>
 <part name="U$1" library="microdecv1" deviceset="WM8731" device=""/>
+<part name="GND17" library="supply1" deviceset="GND" device=""/>
+<part name="JP1" library="pinhead-2" deviceset="PINHD-1X06" device="_2.54-SMD-90°"/>
 </parts>
 <sheets>
 <sheet>
@@ -9020,10 +9020,10 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <instance part="R9" gate="G$1" x="370.84" y="167.64" rot="R90"/>
 <instance part="R10" gate="G$1" x="365.76" y="167.64" rot="R90"/>
 <instance part="R11" gate="G$1" x="360.68" y="167.64" rot="R90"/>
-<instance part="JP3" gate="A" x="406.4" y="218.44"/>
-<instance part="GND17" gate="1" x="396.24" y="205.74"/>
-<instance part="J1" gate="G$1" x="393.7" y="259.08"/>
-<instance part="U$1" gate="G$1" x="340.36" y="271.78" rot="MR0"/>
+<instance part="J1" gate="G$1" x="401.32" y="261.62" rot="R180"/>
+<instance part="U$1" gate="G$1" x="332.74" y="271.78" rot="MR0"/>
+<instance part="GND17" gate="1" x="312.42" y="241.3"/>
+<instance part="JP1" gate="A" x="464.82" y="259.08"/>
 </instances>
 <busses>
 </busses>
@@ -9141,10 +9141,14 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <wire x1="207.772" y1="205.74" x2="207.772" y2="208.28" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="JP3" gate="A" pin="3"/>
-<wire x1="403.86" y1="220.98" x2="396.24" y2="220.98" width="0.1524" layer="91"/>
-<wire x1="396.24" y1="220.98" x2="396.24" y2="208.28" width="0.1524" layer="91"/>
+<pinref part="U$1" gate="G$1" pin="DGND"/>
+<wire x1="314.96" y1="287.02" x2="312.42" y2="287.02" width="0.1524" layer="91"/>
+<wire x1="312.42" y1="287.02" x2="312.42" y2="243.84" width="0.1524" layer="91"/>
 <pinref part="GND17" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="JP1" gate="A" pin="3"/>
+<wire x1="462.28" y1="261.62" x2="452.12" y2="261.62" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="DB0" class="0">
@@ -9604,9 +9608,8 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <pinref part="U$2" gate="G$1" pin="PA13"/>
 </segment>
 <segment>
-<wire x1="403.86" y1="218.44" x2="393.7" y2="218.44" width="0.1524" layer="91"/>
-<label x="393.7" y="218.44" size="1.4224" layer="95" rot="R180" xref="yes"/>
-<pinref part="JP3" gate="A" pin="4"/>
+<pinref part="JP1" gate="A" pin="4"/>
+<wire x1="462.28" y1="259.08" x2="452.12" y2="259.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SWD_CLK" class="0">
@@ -9616,9 +9619,8 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <label x="152.4" y="27.94" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
-<wire x1="403.86" y1="223.52" x2="393.7" y2="223.52" width="0.1524" layer="91"/>
-<label x="393.7" y="223.52" size="1.4224" layer="95" rot="R180" xref="yes"/>
-<pinref part="JP3" gate="A" pin="2"/>
+<pinref part="JP1" gate="A" pin="2"/>
+<wire x1="462.28" y1="264.16" x2="452.12" y2="264.16" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$6" class="0">
@@ -9725,8 +9727,8 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 <junction x="365.76" y="175.26"/>
 </segment>
 <segment>
-<pinref part="JP3" gate="A" pin="1"/>
-<wire x1="403.86" y1="226.06" x2="393.7" y2="226.06" width="0.1524" layer="91"/>
+<pinref part="JP1" gate="A" pin="1"/>
+<wire x1="462.28" y1="266.7" x2="452.12" y2="266.7" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="_5V" class="0">
@@ -9890,21 +9892,62 @@ Push-push type uSD socket. Schematic element and footprint production proven. Sp
 </net>
 <net name="NRST" class="0">
 <segment>
-<pinref part="JP3" gate="A" pin="5"/>
-<wire x1="403.86" y1="215.9" x2="393.7" y2="215.9" width="0.1524" layer="91"/>
-<label x="393.7" y="215.9" size="1.4224" layer="95" rot="R180" xref="yes"/>
-</segment>
-<segment>
 <pinref part="U$2" gate="G$1" pin="NRST"/>
 <wire x1="177.8" y1="76.2" x2="177.8" y2="81.28" width="0.1524" layer="91"/>
 <label x="177.8" y="81.28" size="1.4224" layer="95" rot="R90" xref="yes"/>
 </segment>
+<segment>
+<pinref part="JP1" gate="A" pin="5"/>
+<wire x1="462.28" y1="256.54" x2="452.12" y2="256.54" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="AGND" class="0">
+<segment>
+<pinref part="J1" gate="G$1" pin="EARTH"/>
+<wire x1="396.24" y1="256.54" x2="388.62" y2="256.54" width="0.1524" layer="91"/>
+<label x="388.62" y="256.54" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="AGND"/>
+<wire x1="350.52" y1="289.56" x2="355.6" y2="289.56" width="0.1524" layer="91"/>
+<label x="355.6" y="289.56" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="I2S_WS" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="PA15"/>
+<wire x1="158.75" y1="25.4" x2="152.4" y2="25.4" width="0.1524" layer="91"/>
+<label x="152.4" y="25.4" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
+</net>
+<net name="I2C1_SCL" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="PB6"/>
+<wire x1="158.75" y1="5.08" x2="153.416" y2="5.08" width="0.1524" layer="91"/>
+<label x="153.416" y="5.08" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="SCLK"/>
+<wire x1="314.96" y1="271.78" x2="306.832" y2="271.78" width="0.1524" layer="91"/>
+<label x="306.832" y="271.78" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
+</net>
+<net name="I2C1_SDA" class="0">
+<segment>
+<pinref part="U$2" gate="G$1" pin="PB7"/>
+<wire x1="158.75" y1="2.54" x2="153.416" y2="2.54" width="0.1524" layer="91"/>
+<label x="153.416" y="2.54" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="SDIN"/>
+<wire x1="314.96" y1="269.24" x2="306.832" y2="269.24" width="0.1524" layer="91"/>
+<label x="306.832" y="269.24" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
 </net>
 <net name="SWD_SWO" class="0">
 <segment>
-<pinref part="JP3" gate="A" pin="6"/>
-<wire x1="403.86" y1="213.36" x2="393.7" y2="213.36" width="0.1524" layer="91"/>
-<label x="393.7" y="213.36" size="1.4224" layer="95" rot="R180" xref="yes"/>
+<pinref part="JP1" gate="A" pin="6"/>
+<wire x1="462.28" y1="254" x2="452.12" y2="254" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
