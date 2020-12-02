@@ -21630,8 +21630,12 @@ grid 5.08 mm</description>
 <part name="GND31" library="supply1" deviceset="GND" device=""/>
 <part name="C29" library="rcl" deviceset="C-EU" device="C0603"/>
 <part name="GND32" library="supply1" deviceset="GND" device=""/>
-<part name="C30" library="rcl" deviceset="CPOL-EU" device="SMCE"/>
+<part name="C30" library="rcl" deviceset="CPOL-EU" device="SMCD"/>
 <part name="GND33" library="supply1" deviceset="GND" device=""/>
+<part name="C31" library="rcl" deviceset="C-EU" device="C0603"/>
+<part name="GND34" library="supply1" deviceset="GND" device=""/>
+<part name="R21" library="rcl" deviceset="R-EU_" device="R0603"/>
+<part name="GND36" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -21740,8 +21744,12 @@ grid 5.08 mm</description>
 <instance part="GND31" gate="1" x="332.232" y="411.48"/>
 <instance part="C29" gate="G$1" x="311.912" y="137.16"/>
 <instance part="GND32" gate="1" x="311.912" y="127"/>
-<instance part="C30" gate="G$1" x="401.32" y="419.1"/>
-<instance part="GND33" gate="1" x="401.32" y="408.94"/>
+<instance part="C30" gate="G$1" x="408.94" y="419.1"/>
+<instance part="GND33" gate="1" x="408.94" y="408.94"/>
+<instance part="C31" gate="G$1" x="401.32" y="419.1"/>
+<instance part="GND34" gate="1" x="401.32" y="408.94"/>
+<instance part="R21" gate="G$1" x="378.46" y="411.48" rot="R90"/>
+<instance part="GND36" gate="1" x="378.46" y="401.32"/>
 </instances>
 <busses>
 </busses>
@@ -21980,7 +21988,17 @@ grid 5.08 mm</description>
 <segment>
 <pinref part="C30" gate="G$1" pin="-"/>
 <pinref part="GND33" gate="1" pin="GND"/>
+<wire x1="408.94" y1="411.48" x2="408.94" y2="414.02" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C31" gate="G$1" pin="2"/>
+<pinref part="GND34" gate="1" pin="GND"/>
 <wire x1="401.32" y1="411.48" x2="401.32" y2="414.02" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="R21" gate="G$1" pin="1"/>
+<pinref part="GND36" gate="1" pin="GND"/>
+<wire x1="378.46" y1="403.86" x2="378.46" y2="406.4" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="DB0" class="0">
@@ -22619,10 +22637,10 @@ grid 5.08 mm</description>
 <segment>
 <pinref part="U$5" gate="G$1" pin="USB"/>
 <pinref part="C30" gate="G$1" pin="+"/>
-<wire x1="375.92" y1="426.72" x2="401.32" y2="426.72" width="0.1524" layer="91"/>
-<wire x1="401.32" y1="426.72" x2="401.32" y2="421.64" width="0.1524" layer="91"/>
-<wire x1="401.32" y1="426.72" x2="406.4" y2="426.72" width="0.1524" layer="91"/>
-<junction x="401.32" y="426.72"/>
+<wire x1="375.92" y1="426.72" x2="408.94" y2="426.72" width="0.1524" layer="91"/>
+<wire x1="408.94" y1="426.72" x2="408.94" y2="421.64" width="0.1524" layer="91"/>
+<wire x1="408.94" y1="426.72" x2="414.02" y2="426.72" width="0.1524" layer="91"/>
+<junction x="408.94" y="426.72"/>
 </segment>
 </net>
 <net name="N$1" class="0">
@@ -23186,10 +23204,12 @@ grid 5.08 mm</description>
 </net>
 <net name="N$22" class="0">
 <segment>
-<wire x1="330.2" y1="434.34" x2="378.46" y2="434.34" width="0.1524" layer="91"/>
-<wire x1="378.46" y1="434.34" x2="378.46" y2="429.26" width="0.1524" layer="91"/>
+<wire x1="414.02" y1="429.26" x2="401.32" y2="429.26" width="0.1524" layer="91"/>
 <pinref part="U$5" gate="G$1" pin="AUX"/>
-<wire x1="378.46" y1="429.26" x2="375.92" y2="429.26" width="0.1524" layer="91"/>
+<pinref part="C31" gate="G$1" pin="1"/>
+<wire x1="401.32" y1="429.26" x2="375.92" y2="429.26" width="0.1524" layer="91"/>
+<wire x1="401.32" y1="421.64" x2="401.32" y2="429.26" width="0.1524" layer="91"/>
+<junction x="401.32" y="429.26"/>
 </segment>
 </net>
 <net name="N$23" class="0">
@@ -23223,6 +23243,14 @@ grid 5.08 mm</description>
 <pinref part="U$5" gate="G$1" pin="!FAULT"/>
 <wire x1="375.92" y1="424.18" x2="381" y2="424.18" width="0.1524" layer="91"/>
 <label x="381" y="424.18" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="N$21" class="0">
+<segment>
+<pinref part="U$5" gate="G$1" pin="ILIM"/>
+<pinref part="R21" gate="G$1" pin="2"/>
+<wire x1="375.92" y1="419.1" x2="378.46" y2="419.1" width="0.1524" layer="91"/>
+<wire x1="378.46" y1="419.1" x2="378.46" y2="416.56" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
