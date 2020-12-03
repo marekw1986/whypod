@@ -21411,15 +21411,15 @@ grid 5.08 mm</description>
 <wire x1="-1.5" y1="1.5" x2="1.5" y2="1.5" width="0.127" layer="21"/>
 <wire x1="-1.5" y1="-1.5" x2="-1.5" y2="1.5" width="0.127" layer="21"/>
 <smd name="3" x="-1.3" y="0" dx="0.5" dy="0.3" layer="1"/>
-<smd name="4" x="-1.3" y="0.5" dx="0.5" dy="0.3" layer="1"/>
-<smd name="2" x="-1.3" y="-0.5" dx="0.5" dy="0.3" layer="1"/>
-<smd name="1" x="-1.3" y="-1" dx="0.5" dy="0.3" layer="1"/>
-<smd name="5" x="-1.3" y="1" dx="0.5" dy="0.3" layer="1"/>
+<smd name="4" x="-1.3" y="-0.5" dx="0.5" dy="0.3" layer="1"/>
+<smd name="2" x="-1.3" y="0.5" dx="0.5" dy="0.3" layer="1"/>
+<smd name="1" x="-1.3" y="1" dx="0.5" dy="0.3" layer="1"/>
+<smd name="5" x="-1.3" y="-1" dx="0.5" dy="0.3" layer="1"/>
 <smd name="8" x="1.3" y="0" dx="0.5" dy="0.3" layer="1"/>
-<smd name="7" x="1.3" y="0.5" dx="0.5" dy="0.3" layer="1"/>
-<smd name="9" x="1.3" y="-0.5" dx="0.5" dy="0.3" layer="1"/>
-<smd name="10" x="1.3" y="-1" dx="0.5" dy="0.3" layer="1"/>
-<smd name="6" x="1.3" y="1" dx="0.5" dy="0.3" layer="1"/>
+<smd name="7" x="1.3" y="-0.5" dx="0.5" dy="0.3" layer="1"/>
+<smd name="9" x="1.3" y="0.5" dx="0.5" dy="0.3" layer="1"/>
+<smd name="10" x="1.3" y="1" dx="0.5" dy="0.3" layer="1"/>
+<smd name="6" x="1.3" y="-1" dx="0.5" dy="0.3" layer="1"/>
 <smd name="T" x="0" y="0" dx="2.4" dy="1.65" layer="1" rot="R90"/>
 </package>
 </packages>
@@ -21512,6 +21512,58 @@ grid 5.08 mm</description>
 </connects>
 <technologies>
 <technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
+<library name="passives">
+<description>&lt;b&gt;LAB11&lt;/b&gt; - Resistors, caps, etc.</description>
+<packages>
+<package name="LPS4018">
+<description>Coilcraft LPS4018 series inductor package.</description>
+<smd name="1" x="-1.47955" y="0" dx="1.4351" dy="4.3942" layer="1"/>
+<smd name="2" x="1.47955" y="0" dx="1.4351" dy="4.3942" layer="1"/>
+<wire x1="-0.67945" y1="-1.94945" x2="0.67945" y2="-1.94945" width="0.127" layer="21"/>
+<wire x1="0.67945" y1="1.94945" x2="-0.67945" y2="1.94945" width="0.127" layer="21"/>
+<circle x="-2.54" y="0" radius="0.254" width="0" layer="21"/>
+</package>
+</packages>
+<symbols>
+<symbol name="L-US">
+<wire x1="0" y1="5.08" x2="1.27" y2="3.81" width="0.254" layer="94" curve="-90"/>
+<wire x1="0" y1="2.54" x2="1.27" y2="3.81" width="0.254" layer="94" curve="90"/>
+<wire x1="0" y1="2.54" x2="1.27" y2="1.27" width="0.254" layer="94" curve="-90"/>
+<wire x1="0" y1="0" x2="1.27" y2="1.27" width="0.254" layer="94" curve="90"/>
+<wire x1="0" y1="0" x2="1.27" y2="-1.27" width="0.254" layer="94" curve="-90"/>
+<wire x1="0" y1="-2.54" x2="1.27" y2="-1.27" width="0.254" layer="94" curve="90"/>
+<wire x1="0" y1="-2.54" x2="1.27" y2="-3.81" width="0.254" layer="94" curve="-90"/>
+<wire x1="0" y1="-5.08" x2="1.27" y2="-3.81" width="0.254" layer="94" curve="90"/>
+<text x="-1.27" y="-5.08" size="1.778" layer="95" rot="R90">&gt;NAME</text>
+<text x="3.81" y="-5.08" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
+<pin name="2" x="0" y="-7.62" visible="off" length="short" direction="pas" swaplevel="1" rot="R90"/>
+<pin name="1" x="0" y="7.62" visible="off" length="short" direction="pas" swaplevel="1" rot="R270"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="COILCRAFT-LPS4018" prefix="L">
+<description>Coilcraft
+&lt;p&gt;
+Shielded SMT Power Inductors – LPS4018 Series</description>
+<gates>
+<gate name="G$1" symbol="L-US" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="LPS4018">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="VALUE" value="" constant="no"/>
+</technology>
 </technologies>
 </device>
 </devices>
@@ -21636,6 +21688,13 @@ grid 5.08 mm</description>
 <part name="GND34" library="supply1" deviceset="GND" device=""/>
 <part name="R21" library="rcl" deviceset="R-EU_" device="R0603"/>
 <part name="GND36" library="supply1" deviceset="GND" device=""/>
+<part name="C32" library="rcl" deviceset="C-EU" device="C0603"/>
+<part name="GND37" library="supply1" deviceset="GND" device=""/>
+<part name="L3" library="passives" deviceset="COILCRAFT-LPS4018" device=""/>
+<part name="C33" library="rcl" deviceset="CPOL-EU" device="SMCC"/>
+<part name="GND38" library="supply1" deviceset="GND" device=""/>
+<part name="R22" library="rcl" deviceset="R-EU_" device="R0603" value="0R"/>
+<part name="R23" library="rcl" deviceset="R-EU_" device="R0603" value="0R"/>
 </parts>
 <sheets>
 <sheet>
@@ -21750,6 +21809,13 @@ grid 5.08 mm</description>
 <instance part="GND34" gate="1" x="401.32" y="408.94"/>
 <instance part="R21" gate="G$1" x="378.46" y="411.48" rot="R90"/>
 <instance part="GND36" gate="1" x="378.46" y="401.32"/>
+<instance part="C32" gate="G$1" x="309.88" y="419.1"/>
+<instance part="GND37" gate="1" x="309.88" y="408.94"/>
+<instance part="L3" gate="G$1" x="322.58" y="429.26" rot="R90"/>
+<instance part="C33" gate="G$1" x="259.08" y="350.52"/>
+<instance part="GND38" gate="1" x="259.08" y="340.36"/>
+<instance part="R22" gate="G$1" x="381" y="436.88" rot="R90"/>
+<instance part="R23" gate="G$1" x="388.62" y="436.88" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -21999,6 +22065,16 @@ grid 5.08 mm</description>
 <pinref part="R21" gate="G$1" pin="1"/>
 <pinref part="GND36" gate="1" pin="GND"/>
 <wire x1="378.46" y1="403.86" x2="378.46" y2="406.4" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C32" gate="G$1" pin="2"/>
+<pinref part="GND37" gate="1" pin="GND"/>
+<wire x1="309.88" y1="411.48" x2="309.88" y2="414.02" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="C33" gate="G$1" pin="-"/>
+<pinref part="GND38" gate="1" pin="GND"/>
+<wire x1="259.08" y1="342.9" x2="259.08" y2="345.44" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="DB0" class="0">
@@ -22509,8 +22585,9 @@ grid 5.08 mm</description>
 <junction x="184.15" y="-31.496"/>
 </segment>
 <segment>
-<wire x1="266.7" y1="355.6" x2="271.272" y2="355.6" width="0.1524" layer="91"/>
+<wire x1="254" y1="355.6" x2="259.08" y2="355.6" width="0.1524" layer="91"/>
 <pinref part="C5" gate="G$1" pin="1"/>
+<wire x1="259.08" y1="355.6" x2="271.272" y2="355.6" width="0.1524" layer="91"/>
 <wire x1="271.272" y1="355.6" x2="278.892" y2="355.6" width="0.1524" layer="91"/>
 <wire x1="278.892" y1="355.6" x2="286.512" y2="355.6" width="0.1524" layer="91"/>
 <wire x1="286.512" y1="355.6" x2="294.132" y2="355.6" width="0.1524" layer="91"/>
@@ -22551,6 +22628,9 @@ grid 5.08 mm</description>
 <pinref part="C20" gate="G$1" pin="1"/>
 <wire x1="344.932" y1="353.06" x2="344.932" y2="355.6" width="0.1524" layer="91"/>
 <junction x="344.932" y="355.6"/>
+<pinref part="C33" gate="G$1" pin="+"/>
+<wire x1="259.08" y1="353.06" x2="259.08" y2="355.6" width="0.1524" layer="91"/>
+<junction x="259.08" y="355.6"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="VCC"/>
@@ -23177,7 +23257,7 @@ grid 5.08 mm</description>
 <wire x1="104.14" y1="360.68" x2="101.6" y2="360.68" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="VBAT" class="0">
+<net name="LIPOL" class="0">
 <segment>
 <pinref part="U$3" gate="G$1" pin="VBAT"/>
 <wire x1="101.6" y1="355.6" x2="116.84" y2="355.6" width="0.1524" layer="91"/>
@@ -23186,13 +23266,29 @@ grid 5.08 mm</description>
 <wire x1="116.84" y1="350.52" x2="116.84" y2="355.6" width="0.1524" layer="91"/>
 <junction x="116.84" y="355.6"/>
 </segment>
+<segment>
+<pinref part="U$5" gate="G$1" pin="EN"/>
+<wire x1="335.28" y1="421.64" x2="330.2" y2="421.64" width="0.1524" layer="91"/>
+<pinref part="U$5" gate="G$1" pin="IN"/>
+<wire x1="335.28" y1="424.18" x2="330.2" y2="424.18" width="0.1524" layer="91"/>
+<wire x1="330.2" y1="424.18" x2="330.2" y2="421.64" width="0.1524" layer="91"/>
+<wire x1="330.2" y1="424.18" x2="309.88" y2="424.18" width="0.1524" layer="91"/>
+<junction x="330.2" y="424.18"/>
+<wire x1="309.88" y1="424.18" x2="307.34" y2="424.18" width="0.1524" layer="91"/>
+<wire x1="314.96" y1="429.26" x2="309.88" y2="429.26" width="0.1524" layer="91"/>
+<wire x1="309.88" y1="429.26" x2="309.88" y2="424.18" width="0.1524" layer="91"/>
+<junction x="309.88" y="424.18"/>
+<pinref part="C32" gate="G$1" pin="1"/>
+<wire x1="309.88" y1="421.64" x2="309.88" y2="424.18" width="0.1524" layer="91"/>
+<pinref part="L3" gate="G$1" pin="1"/>
+</segment>
 </net>
 <net name="N$19" class="0">
 <segment>
 <pinref part="R20" gate="G$1" pin="1"/>
 <wire x1="104.14" y1="381" x2="104.14" y2="383.54" width="0.1524" layer="91"/>
 <pinref part="LED1" gate="G$1" pin="C"/>
-<wire x1="91.44" y1="383.54" x2="104.14" y2="383.54" width="0.1524" layer="91"/>
+<wire x1="104.14" y1="383.54" x2="91.44" y2="383.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$20" class="0">
@@ -23212,37 +23308,22 @@ grid 5.08 mm</description>
 <junction x="401.32" y="429.26"/>
 </segment>
 </net>
-<net name="N$23" class="0">
-<segment>
-<pinref part="U$5" gate="G$1" pin="EN"/>
-<wire x1="335.28" y1="421.64" x2="330.2" y2="421.64" width="0.1524" layer="91"/>
-<pinref part="U$5" gate="G$1" pin="IN"/>
-<wire x1="335.28" y1="424.18" x2="330.2" y2="424.18" width="0.1524" layer="91"/>
-<wire x1="330.2" y1="424.18" x2="330.2" y2="421.64" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="ENUSB" class="0">
-<segment>
-<pinref part="U$5" gate="G$1" pin="ENUSB"/>
-<wire x1="375.92" y1="421.64" x2="381" y2="421.64" width="0.1524" layer="91"/>
-<label x="381" y="421.64" size="1.4224" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="U$2" gate="G$1" pin="PC7"/>
-<wire x1="246.38" y1="45.72" x2="256.54" y2="45.72" width="0.1524" layer="91"/>
-<label x="256.54" y="45.72" size="1.4224" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="USBFAULT" class="0">
-<segment>
-<pinref part="U$2" gate="G$1" pin="PA8"/>
-<wire x1="158.75" y1="43.18" x2="152.4" y2="43.18" width="0.1524" layer="91"/>
-<label x="152.4" y="43.18" size="1.4224" layer="95" rot="R180" xref="yes"/>
-</segment>
 <segment>
 <pinref part="U$5" gate="G$1" pin="!FAULT"/>
 <wire x1="375.92" y1="424.18" x2="381" y2="424.18" width="0.1524" layer="91"/>
 <label x="381" y="424.18" size="1.4224" layer="95" xref="yes"/>
+<pinref part="R22" gate="G$1" pin="1"/>
+<wire x1="381" y1="431.8" x2="381" y2="424.18" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="USBFAULT" class="0">
+<segment>
+<pinref part="U$5" gate="G$1" pin="ENUSB"/>
+<label x="381" y="421.64" size="1.4224" layer="95" xref="yes"/>
+<pinref part="R23" gate="G$1" pin="1"/>
+<wire x1="375.92" y1="421.64" x2="388.62" y2="421.64" width="0.1524" layer="91"/>
+<wire x1="388.62" y1="421.64" x2="388.62" y2="431.8" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$21" class="0">
@@ -23251,6 +23332,35 @@ grid 5.08 mm</description>
 <pinref part="R21" gate="G$1" pin="2"/>
 <wire x1="375.92" y1="419.1" x2="378.46" y2="419.1" width="0.1524" layer="91"/>
 <wire x1="378.46" y1="419.1" x2="378.46" y2="416.56" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$24" class="0">
+<segment>
+<pinref part="U$5" gate="G$1" pin="SW"/>
+<wire x1="335.28" y1="429.26" x2="330.2" y2="429.26" width="0.1524" layer="91"/>
+<pinref part="L3" gate="G$1" pin="2"/>
+</segment>
+</net>
+<net name="ENUSB_CPU" class="0">
+<segment>
+<pinref part="R22" gate="G$1" pin="2"/>
+<wire x1="381" y1="441.96" x2="381" y2="444.5" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="PC7"/>
+<wire x1="246.38" y1="45.72" x2="256.54" y2="45.72" width="0.1524" layer="91"/>
+<label x="256.54" y="45.72" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="USBFAULT_CPU" class="0">
+<segment>
+<pinref part="R23" gate="G$1" pin="2"/>
+<wire x1="388.62" y1="441.96" x2="388.62" y2="444.5" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="U$2" gate="G$1" pin="PA8"/>
+<wire x1="158.75" y1="43.18" x2="152.4" y2="43.18" width="0.1524" layer="91"/>
+<label x="152.4" y="43.18" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 </nets>
