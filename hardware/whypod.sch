@@ -16516,6 +16516,7 @@ Based on the datasheets for the following products.&lt;br&gt;
 <pin name="D-" x="-2.54" y="5.08" visible="pad" length="short"/>
 <pin name="VBUS" x="-2.54" y="2.54" visible="pad" length="short"/>
 <pin name="GND" x="-2.54" y="0" visible="pad" length="short"/>
+<pin name="SHIELD" x="2.54" y="-3.81" visible="pad" length="short" rot="R90"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -16541,6 +16542,7 @@ Based on the datasheets for the following products.&lt;br&gt;
 <connect gate="G$1" pin="D+" pad="D+"/>
 <connect gate="G$1" pin="D-" pad="D-"/>
 <connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="SHIELD" pad="P$5 P$6"/>
 <connect gate="G$1" pin="VBUS" pad="VBUS"/>
 </connects>
 <technologies>
@@ -16552,6 +16554,7 @@ Based on the datasheets for the following products.&lt;br&gt;
 <connect gate="G$1" pin="D+" pad="D+"/>
 <connect gate="G$1" pin="D-" pad="D-"/>
 <connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="SHIELD" pad="P$1 P$2"/>
 <connect gate="G$1" pin="VBUS" pad="VBUS"/>
 </connects>
 <technologies>
@@ -16563,6 +16566,7 @@ Based on the datasheets for the following products.&lt;br&gt;
 <connect gate="G$1" pin="D+" pad="D+"/>
 <connect gate="G$1" pin="D-" pad="D-"/>
 <connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="SHIELD" pad="P$5 P$6"/>
 <connect gate="G$1" pin="VBUS" pad="VBUS"/>
 </connects>
 <technologies>
@@ -16574,6 +16578,7 @@ Based on the datasheets for the following products.&lt;br&gt;
 <connect gate="G$1" pin="D+" pad="D+"/>
 <connect gate="G$1" pin="D-" pad="D-"/>
 <connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="SHIELD" pad="P$6 P$7"/>
 <connect gate="G$1" pin="VBUS" pad="VBUS"/>
 </connects>
 <technologies>
@@ -16585,6 +16590,7 @@ Based on the datasheets for the following products.&lt;br&gt;
 <connect gate="G$1" pin="D+" pad="D+"/>
 <connect gate="G$1" pin="D-" pad="D-"/>
 <connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="SHIELD" pad="P$5 P$6 P$7 P$8"/>
 <connect gate="G$1" pin="VBUS" pad="VBUS"/>
 </connects>
 <technologies>
@@ -16596,6 +16602,7 @@ Based on the datasheets for the following products.&lt;br&gt;
 <connect gate="G$1" pin="D+" pad="D+"/>
 <connect gate="G$1" pin="D-" pad="D-"/>
 <connect gate="G$1" pin="GND" pad="GND"/>
+<connect gate="G$1" pin="SHIELD" pad="5 6"/>
 <connect gate="G$1" pin="VBUS" pad="VUSB"/>
 </connects>
 <technologies>
@@ -23178,6 +23185,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="GND63" library="supply1" deviceset="GND" device=""/>
 <part name="R36" library="rcl" deviceset="R-EU_" device="R0603" value="10k"/>
 <part name="R37" library="rcl" deviceset="R-EU_" device="R0603" value="10k"/>
+<part name="GND64" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -23365,6 +23373,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <instance part="GND63" gate="1" x="347.472" y="340.36"/>
 <instance part="R36" gate="G$1" x="358.14" y="10.16" rot="R270"/>
 <instance part="R37" gate="G$1" x="358.14" y="33.02" rot="R270"/>
+<instance part="GND64" gate="1" x="325.12" y="127.254"/>
 </instances>
 <busses>
 </busses>
@@ -23818,6 +23827,11 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <pinref part="C48" gate="G$1" pin="-"/>
 <pinref part="GND63" gate="1" pin="GND"/>
 <wire x1="347.472" y1="342.9" x2="347.472" y2="345.44" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="X2" gate="G$1" pin="SHIELD"/>
+<pinref part="GND64" gate="1" pin="GND"/>
+<wire x1="325.12" y1="129.794" x2="325.12" y2="138.43" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="DB0" class="0">
