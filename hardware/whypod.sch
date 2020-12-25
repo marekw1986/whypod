@@ -22104,71 +22104,6 @@ Shielded SMT Power Inductors – LPS4018 Series</description>
 </deviceset>
 </devicesets>
 </library>
-<library name="smd-special">
-<description>&lt;b&gt;Special SMD Packages&lt;/b&gt;&lt;p&gt;
-&lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
-<packages>
-<package name="SMS-001">
-<description>&lt;b&gt;DIP SWITCH&lt;/b&gt;</description>
-<wire x1="-1.905" y1="-3.2004" x2="1.905" y2="-3.2004" width="0.1524" layer="21"/>
-<wire x1="1.905" y1="3.2004" x2="1.905" y2="-3.2004" width="0.1524" layer="21"/>
-<wire x1="1.905" y1="3.2004" x2="-1.905" y2="3.2004" width="0.1524" layer="21"/>
-<wire x1="-1.905" y1="-3.2004" x2="-1.905" y2="3.2004" width="0.1524" layer="21"/>
-<wire x1="-0.762" y1="2.032" x2="0.762" y2="2.032" width="0.1524" layer="21"/>
-<wire x1="0.762" y1="-2.032" x2="-0.762" y2="-2.032" width="0.1524" layer="21"/>
-<wire x1="0.762" y1="2.032" x2="0.762" y2="-2.032" width="0.1524" layer="21"/>
-<wire x1="-0.762" y1="-2.032" x2="-0.762" y2="2.032" width="0.1524" layer="21"/>
-<smd name="1" x="0" y="-4.4958" dx="1.0922" dy="2.0066" layer="1"/>
-<smd name="2" x="0" y="4.4958" dx="1.0922" dy="2.0066" layer="1"/>
-<text x="-0.127" y="-1.27" size="1.016" layer="21">1</text>
-<text x="-2.286" y="-3.175" size="1.27" layer="25" ratio="10" rot="R90">&gt;NAME</text>
-<text x="3.556" y="-3.175" size="1.27" layer="27" ratio="10" rot="R90">&gt;VALUE</text>
-<rectangle x1="-0.762" y1="0.508" x2="0.762" y2="2.032" layer="21"/>
-<rectangle x1="-0.7366" y1="-4.1148" x2="0.762" y2="-3.2004" layer="51"/>
-<rectangle x1="-0.3048" y1="-5.1816" x2="0.3048" y2="-4.1148" layer="51"/>
-<rectangle x1="-0.762" y1="3.2004" x2="0.7366" y2="4.1148" layer="51"/>
-<rectangle x1="-0.3048" y1="4.1148" x2="0.3048" y2="5.1816" layer="51"/>
-</package>
-</packages>
-<symbols>
-<symbol name="DIP01">
-<wire x1="0.508" y1="0" x2="-0.508" y2="0" width="0.1524" layer="94"/>
-<wire x1="-0.508" y1="2.54" x2="0.508" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="0.508" y1="2.54" x2="0.508" y2="0" width="0.1524" layer="94"/>
-<wire x1="-0.508" y1="0" x2="-0.508" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="1.905" y1="5.08" x2="-1.905" y2="5.08" width="0.4064" layer="94"/>
-<wire x1="-1.905" y1="5.08" x2="-1.905" y2="-2.54" width="0.4064" layer="94"/>
-<wire x1="-1.905" y1="-2.54" x2="1.905" y2="-2.54" width="0.4064" layer="94"/>
-<wire x1="1.905" y1="-2.54" x2="1.905" y2="5.08" width="0.4064" layer="94"/>
-<text x="-2.54" y="-2.54" size="1.778" layer="95" rot="R90">&gt;NAME</text>
-<text x="4.445" y="-2.54" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
-<text x="-0.635" y="3.175" size="0.9906" layer="94" ratio="14">ON</text>
-<text x="-0.254" y="-1.651" size="0.9906" layer="94" ratio="14">1</text>
-<rectangle x1="-0.254" y1="0.254" x2="0.254" y2="1.27" layer="94"/>
-<pin name="2" x="0" y="7.62" visible="pad" length="short" direction="pas" rot="R270"/>
-<pin name="1" x="0" y="-5.08" visible="pad" length="short" direction="pas" rot="R90"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="SWS001" prefix="S">
-<description>&lt;b&gt;SMD Dip Switch 1 pol.&lt;/b&gt;</description>
-<gates>
-<gate name="G$1" symbol="DIP01" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="SMS-001">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="crystal">
 <description>&lt;b&gt;Crystals and Crystal Resonators&lt;/b&gt;&lt;p&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
@@ -23149,9 +23084,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="GND52" library="supply1" deviceset="GND" device=""/>
 <part name="C42" library="rcl" deviceset="C-EU" device="C0603"/>
 <part name="GND53" library="supply1" deviceset="GND" device=""/>
-<part name="R34" library="rcl" deviceset="R-EU_" device="R0603" value="0R"/>
 <part name="GND54" library="supply1" deviceset="GND" device=""/>
-<part name="S1" library="smd-special" deviceset="SWS001" device=""/>
 <part name="C43" library="rcl" deviceset="CPOL-EU" device="SMCA"/>
 <part name="GND55" library="supply1" deviceset="GND" device=""/>
 <part name="U$7" library="crystal" deviceset="ASE" device=""/>
@@ -23337,9 +23270,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <instance part="GND52" gate="1" x="373.38" y="340.36"/>
 <instance part="C42" gate="G$1" x="238.76" y="406.4"/>
 <instance part="GND53" gate="1" x="238.76" y="396.24" rot="MR0"/>
-<instance part="R34" gate="G$1" x="165.1" y="83.82" rot="R180"/>
 <instance part="GND54" gate="1" x="157.48" y="76.2"/>
-<instance part="S1" gate="G$1" x="172.72" y="93.98"/>
 <instance part="C43" gate="G$1" x="324.612" y="350.52"/>
 <instance part="GND55" gate="1" x="324.612" y="340.36"/>
 <instance part="U$7" gate="G$1" x="132.08" y="127"/>
@@ -23710,10 +23641,11 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="238.76" y1="398.78" x2="238.76" y2="401.32" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="R34" gate="G$1" pin="2"/>
-<wire x1="160.02" y1="83.82" x2="157.48" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="157.48" y1="83.82" x2="157.48" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="GND54" gate="1" pin="GND"/>
+<pinref part="U$2" gate="G$1" pin="BOOT0"/>
+<wire x1="172.72" y1="76.2" x2="172.72" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="83.82" x2="157.48" y2="83.82" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="C43" gate="G$1" pin="-"/>
@@ -24494,10 +24426,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <pinref part="R33" gate="G$1" pin="1"/>
 <wire x1="193.04" y1="-55.88" x2="187.96" y2="-55.88" width="0.1524" layer="91"/>
 <label x="187.96" y="-55.88" size="1.4224" layer="95" rot="R180" xref="yes"/>
-</segment>
-<segment>
-<pinref part="S1" gate="G$1" pin="2"/>
-<wire x1="172.72" y1="101.6" x2="172.72" y2="104.14" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U$7" gate="G$1" pin="VDD"/>
@@ -25315,17 +25243,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="238.76" y1="414.02" x2="246.38" y2="414.02" width="0.1524" layer="91"/>
 <wire x1="238.76" y1="408.94" x2="238.76" y2="414.02" width="0.1524" layer="91"/>
 <junction x="238.76" y="414.02"/>
-</segment>
-</net>
-<net name="N$29" class="0">
-<segment>
-<pinref part="U$2" gate="G$1" pin="BOOT0"/>
-<wire x1="172.72" y1="76.2" x2="172.72" y2="83.82" width="0.1524" layer="91"/>
-<pinref part="R34" gate="G$1" pin="1"/>
-<wire x1="172.72" y1="83.82" x2="172.72" y2="88.9" width="0.1524" layer="91"/>
-<wire x1="170.18" y1="83.82" x2="172.72" y2="83.82" width="0.1524" layer="91"/>
-<junction x="172.72" y="83.82"/>
-<pinref part="S1" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="SW2" class="0">
