@@ -24169,6 +24169,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <segment>
 <pinref part="IC1" gate="G$1" pin="I/O1"/>
 <wire x1="259.08" y1="139.7" x2="251.46" y2="139.7" width="0.1524" layer="91"/>
+<label x="251.46" y="139.7" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="USB_D_P" class="0">
@@ -24180,6 +24181,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <segment>
 <pinref part="IC1" gate="G$1" pin="I/O2"/>
 <wire x1="259.08" y1="149.86" x2="251.46" y2="149.86" width="0.1524" layer="91"/>
+<label x="251.46" y="149.86" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="N$3" class="0">
@@ -24461,6 +24463,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <segment>
 <pinref part="IC1" gate="G$1" pin="VBUS"/>
 <wire x1="259.08" y1="144.78" x2="251.46" y2="144.78" width="0.1524" layer="91"/>
+<label x="251.46" y="144.78" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
 <pinref part="U$5" gate="G$1" pin="USB"/>
