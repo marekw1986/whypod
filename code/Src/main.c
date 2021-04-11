@@ -870,7 +870,7 @@ void startAudioTask(void *argument)
   for(;;)
   {
 	mp3_handle();
-    osDelay(1000);
+    osDelay(100);
   }
   /* USER CODE END startAudioTask */
 }
