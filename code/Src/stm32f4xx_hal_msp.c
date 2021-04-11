@@ -119,7 +119,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     hdma_adc1.Init.MemInc = DMA_MINC_ENABLE;
     hdma_adc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
     hdma_adc1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
-    hdma_adc1.Init.Mode = DMA_CIRCULAR;
+    hdma_adc1.Init.Mode = DMA_NORMAL;
     hdma_adc1.Init.Priority = DMA_PRIORITY_LOW;
     hdma_adc1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
     if (HAL_DMA_Init(&hdma_adc1) != HAL_OK)
@@ -371,7 +371,7 @@ void HAL_SD_MspInit(SD_HandleTypeDef* hsd)
     hdma_sdio_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
     hdma_sdio_rx.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
     hdma_sdio_rx.Init.Mode = DMA_PFCTRL;
-    hdma_sdio_rx.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_sdio_rx.Init.Priority = DMA_PRIORITY_VERY_HIGH;
     hdma_sdio_rx.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
     hdma_sdio_rx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
     hdma_sdio_rx.Init.MemBurst = DMA_MBURST_INC4;
@@ -392,7 +392,7 @@ void HAL_SD_MspInit(SD_HandleTypeDef* hsd)
     hdma_sdio_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
     hdma_sdio_tx.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
     hdma_sdio_tx.Init.Mode = DMA_PFCTRL;
-    hdma_sdio_tx.Init.Priority = DMA_PRIORITY_LOW;
+    hdma_sdio_tx.Init.Priority = DMA_PRIORITY_VERY_HIGH;
     hdma_sdio_tx.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
     hdma_sdio_tx.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
     hdma_sdio_tx.Init.MemBurst = DMA_MBURST_INC4;
@@ -475,12 +475,11 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
 
     __HAL_RCC_GPIOA_CLK_ENABLE();
     /**SPI1 GPIO Configuration
-    PA4     ------> SPI1_NSS
     PA5     ------> SPI1_SCK
     PA6     ------> SPI1_MISO
     PA7     ------> SPI1_MOSI
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7;
+    GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -536,12 +535,11 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
     __HAL_RCC_SPI1_CLK_DISABLE();
 
     /**SPI1 GPIO Configuration
-    PA4     ------> SPI1_NSS
     PA5     ------> SPI1_SCK
     PA6     ------> SPI1_MISO
     PA7     ------> SPI1_MOSI
     */
-    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7);
+    HAL_GPIO_DeInit(GPIOA, GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7);
 
   /* USER CODE BEGIN SPI1_MspDeInit 1 */
 

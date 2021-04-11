@@ -36,7 +36,9 @@
    - 0..7: DMA channel
    - 0..7: Stream
    - 1..3: DMA priority (0=low..3=very high) */
-#define LCD_DMA           0, 0, 0, 0
+#define LCD_DMA           2, 1, 1, 0
+//#define LCD_DMA           0, 0, 0, 0
+
 
 /* DMA interrupt priority (see NVIC_SetPriority function, default value: 15) */
 #define LCD_DMA_IRQ_PR    15

@@ -71,6 +71,8 @@ void Error_Handler(void);
 #define KEY_3_GPIO_Port GPIOA
 #define LOCK_SWITCH_Pin GPIO_PIN_1
 #define LOCK_SWITCH_GPIO_Port GPIOA
+#define SD_CS_Pin GPIO_PIN_4
+#define SD_CS_GPIO_Port GPIOA
 #define PWR_BTN_Pin GPIO_PIN_10
 #define PWR_BTN_GPIO_Port GPIOB
 #define T_IRQ_Pin GPIO_PIN_12

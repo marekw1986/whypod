@@ -21,6 +21,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "fatfs.h"
+#include "libjpeg.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -74,14 +75,14 @@ osThreadId_t mainTaskHandle;
 const osThreadAttr_t mainTask_attributes = {
   .name = "mainTask",
   .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 1536 * 4
+  .stack_size = 2048 * 4
 };
 /* Definitions for audioTask */
 osThreadId_t audioTaskHandle;
 const osThreadAttr_t audioTask_attributes = {
   .name = "audioTask",
-  .priority = (osPriority_t) osPriorityAboveNormal,
-  .stack_size = 2560 * 4
+  .priority = (osPriority_t) osPriorityBelowNormal,
+  .stack_size = 4096 * 4
 };
 /* Definitions for printfMutex */
 osMutexId_t printfMutexHandle;
@@ -107,9 +108,10 @@ static void MX_SPI2_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_USART1_UART_Init(void);
 void StartMainTask(void *argument);
-void StartAudioTask(void *argument);
+void startAudioTask(void *argument);
 
 /* USER CODE BEGIN PFP */
+extern void jpg_view(char* fn);
 static void usb_write (void);
 /* USER CODE END PFP */
 
@@ -157,15 +159,16 @@ int main(void)
   MX_USB_OTG_FS_PCD_Init();
   MX_FATFS_Init();
   MX_USART1_UART_Init();
+  MX_LIBJPEG_Init();
   /* USER CODE BEGIN 2 */
   BSP_LCD_Init();
   printf("Display ID = %X\r\n", (unsigned int)BSP_LCD_ReadID());
   BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
-  BSP_LCD_DisplayStringAtLine(1, (uint8_t*)"Test ekranu");
 
   res = f_mount(&FatFS, "0:", 0);
   if (res != FR_OK) {printf("f_mount error code: %i\r\n", res);}
   else {printf("f_mount OK\r\n");}
+
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -195,7 +198,7 @@ int main(void)
   mainTaskHandle = osThreadNew(StartMainTask, NULL, &mainTask_attributes);
 
   /* creation of audioTask */
-  audioTaskHandle = osThreadNew(StartAudioTask, NULL, &audioTask_attributes);
+  audioTaskHandle = osThreadNew(startAudioTask, NULL, &audioTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -294,7 +297,7 @@ static void MX_ADC1_Init(void)
   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV8;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = DISABLE;
-  hadc1.Init.ContinuousConvMode = ENABLE;
+  hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
@@ -439,8 +442,8 @@ static void MX_SPI1_Init(void)
   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi1.Init.NSS = SPI_NSS_HARD_INPUT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
+  hspi1.Init.NSS = SPI_NSS_SOFT;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -601,6 +604,9 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(LCD_RST_GPIO_Port, LCD_RST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
@@ -624,11 +630,18 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : KEY_3_Pin LOCK_SWITCH_Pin */
-  GPIO_InitStruct.Pin = KEY_3_Pin|LOCK_SWITCH_Pin;
+  /*Configure GPIO pins : KEY_3_Pin LOCK_SWITCH_Pin CHARGING_Pin */
+  GPIO_InitStruct.Pin = KEY_3_Pin|LOCK_SWITCH_Pin|CHARGING_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : SD_CS_Pin */
+  GPIO_InitStruct.Pin = SD_CS_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(SD_CS_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PWR_BTN_Pin SW_B_Pin ROT_PUSH_Pin */
   GPIO_InitStruct.Pin = PWR_BTN_Pin|SW_B_Pin|ROT_PUSH_Pin;
@@ -656,11 +669,11 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : USB_FAULT_Pin CHARGING_Pin */
-  GPIO_InitStruct.Pin = USB_FAULT_Pin|CHARGING_Pin;
+  /*Configure GPIO pin : USB_FAULT_Pin */
+  GPIO_InitStruct.Pin = USB_FAULT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(USB_FAULT_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : SDIO_CD_Pin */
   GPIO_InitStruct.Pin = SDIO_CD_Pin;
@@ -785,7 +798,8 @@ void StartMainTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
   int8_t rot;
-  static uint32_t usbtimer = 0;
+  static uint32_t voltimer = 0;
+  uint8_t buf[64];
 
   static button_t pwr_btn;
   static button_t key1;
@@ -795,8 +809,6 @@ void StartMainTask(void *argument)
   static button_t voldn;
   static button_t rot_push;
 
-  HAL_ADC_Start_DMA(&hadc1, &pomiarADC, 1);
-
   button_init(&pwr_btn, PWR_BTN_GPIO_Port, PWR_BTN_Pin, pwr_btn_callback, NULL);
   button_init(&key1, KEY_1_GPIO_Port, KEY_1_Pin, key1_callback, NULL);
   button_init(&key2, KEY_2_GPIO_Port, KEY_2_Pin, key2_callback, NULL);
@@ -804,6 +816,7 @@ void StartMainTask(void *argument)
   button_init(&volup, VOL_UP_GPIO_Port, VOL_UP_Pin, volup_callback, NULL);
   button_init(&voldn, VOL_DN_GPIO_Port, VOL_DN_Pin, voldn_callback, NULL);
   button_init(&rot_push, ROT_PUSH_GPIO_Port, ROT_PUSH_Pin, rot_push_callback, NULL);
+
   /* Infinite loop */
   for(;;)
   {
@@ -817,34 +830,49 @@ void StartMainTask(void *argument)
 	button_handle(&voldn);
 	button_handle(&rot_push);
 
-	if ( (uint32_t) (HAL_GetTick() - usbtimer) > 10000 ) {
-		usbtimer = HAL_GetTick();
-		usb_write();
+	//if ( (uint32_t)( osKernelGetTickCount() - usbtimer) > 10000 ) {
+	//	usbtimer = osKernelGetTickCount();
+	//	usb_write();
+	//}
+
+	if ( (uint32_t) (osKernelGetTickCount() - voltimer) > 1000 ) {
+		voltimer = osKernelGetTickCount();
+
+		HAL_ADC_Start_DMA(&hadc1, &pomiarADC, 1);
+
+		sprintf((char*)buf, "Uptime: %lu", osKernelGetTickCount()/1000);
+		BSP_LCD_DisplayStringAtLine(0, buf);
+		sprintf((char*)buf, "Battery: %.2fV %s", (3.3*pomiarADC)/4095.0*2, !HAL_GPIO_ReadPin(CHARGING_GPIO_Port, CHARGING_Pin) ? "(Charging)" : "          ");
+		BSP_LCD_DisplayStringAtLine(1, buf);
+
+		BSP_LCD_DrawCircle(100, 100, 30);
+		BSP_LCD_DrawRect(100, 100, 60, 60);
+		BSP_LCD_DrawCircle(160, 160, 30);
 	}
 
-	osDelay(1);
+	osDelay(20);
   }
   /* USER CODE END 5 */
 }
 
-/* USER CODE BEGIN Header_StartAudioTask */
+/* USER CODE BEGIN Header_startAudioTask */
 /**
 * @brief Function implementing the audioTask thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartAudioTask */
-void StartAudioTask(void *argument)
+/* USER CODE END Header_startAudioTask */
+void startAudioTask(void *argument)
 {
-  /* USER CODE BEGIN StartAudioTask */
+  /* USER CODE BEGIN startAudioTask */
   /* Infinite loop */
- mp3_play("test.mp3");
+  mp3_play("test.mp3");
   for(;;)
   {
 	mp3_handle();
-    osDelay(100);
+    osDelay(1000);
   }
-  /* USER CODE END StartAudioTask */
+  /* USER CODE END startAudioTask */
 }
 
  /**

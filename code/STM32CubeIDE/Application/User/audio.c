@@ -68,7 +68,7 @@ enum mad_flow mad_input_callback(void *data, struct mad_stream *stream)	{
 	destination = MP3Buffer;
 	rest = stream->bufend - stream->next_frame;
 
-	//printf("MAD input\r\n");
+	printf("MAD input\r\n");
 	if (stream->buffer) {
 		//Second run
 		memcpy((void*)MP3Buffer, stream->next_frame, rest);
@@ -78,7 +78,7 @@ enum mad_flow mad_input_callback(void *data, struct mad_stream *stream)	{
 	bytes_to_load = sizeof(MP3Buffer) - rest;
 	res = f_read(&file, destination, bytes_to_load, &br);
 	if (res != FR_OK) {
-		//printf("Cand read MP3 data from file. Error: %d", res);
+		printf("Cand read MP3 data from file. Error: %d", res);
 		return MAD_FLOW_BREAK;
 	}
 
@@ -103,7 +103,7 @@ enum mad_flow mad_output_callback(void *data, struct mad_header const *header, s
     //printf("Sample rate: %d\r\n", pcm->samplerate);
     //printf("Channels: %d\r\n", pcm->channels);
     //printf("Length: %d\r\n", pcm->length);
-    osDelay(100);
+    osDelay(1000);
 
     //xSemaphoreTake(xPCMSemaphore, portMAX_DELAY);
 	nsamples = pcm->length;
