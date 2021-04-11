@@ -21,9 +21,6 @@
 /*FatFS is chosen for File storage*/
 #include "ff.h"
 
-/*FreeRtos Api*/
-#include "cmsis_os.h"
-
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -32,8 +29,8 @@
 /* Private functions ---------------------------------------------------------*/
 
 /*This defines the memory allocation methods.*/
-#define JMALLOC   pvPortMalloc
-#define JFREE     vPortFree
+#define JMALLOC   malloc
+#define JFREE     free
 
 /*This defines the File data manager type.*/
 #define JFILE            FIL

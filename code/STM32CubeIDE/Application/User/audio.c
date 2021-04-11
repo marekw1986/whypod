@@ -10,7 +10,6 @@
 #include <stdint.h>
 #include "ff.h"
 #include "mad.h"
-#include "cmsis_os.h"
 
 #define PCM_BUF_SIZE 1152
 
@@ -103,7 +102,7 @@ enum mad_flow mad_output_callback(void *data, struct mad_header const *header, s
     //printf("Sample rate: %d\r\n", pcm->samplerate);
     //printf("Channels: %d\r\n", pcm->channels);
     //printf("Length: %d\r\n", pcm->length);
-    osDelay(1000);
+    //osDelay(1000);
 
     //xSemaphoreTake(xPCMSemaphore, portMAX_DELAY);
 	nsamples = pcm->length;

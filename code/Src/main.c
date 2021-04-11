@@ -19,7 +19,6 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "cmsis_os.h"
 #include "fatfs.h"
 #include "libjpeg.h"
 
@@ -70,25 +69,6 @@ PCD_HandleTypeDef hpcd_USB_OTG_FS;
 
 SRAM_HandleTypeDef hsram1;
 
-/* Definitions for mainTask */
-osThreadId_t mainTaskHandle;
-const osThreadAttr_t mainTask_attributes = {
-  .name = "mainTask",
-  .priority = (osPriority_t) osPriorityNormal,
-  .stack_size = 2048 * 4
-};
-/* Definitions for audioTask */
-osThreadId_t audioTaskHandle;
-const osThreadAttr_t audioTask_attributes = {
-  .name = "audioTask",
-  .priority = (osPriority_t) osPriorityBelowNormal,
-  .stack_size = 4096 * 4
-};
-/* Definitions for printfMutex */
-osMutexId_t printfMutexHandle;
-const osMutexAttr_t printfMutex_attributes = {
-  .name = "printfMutex"
-};
 /* USER CODE BEGIN PV */
 FATFS FatFS;
 uint32_t pomiarADC = 0;
@@ -107,9 +87,6 @@ static void MX_SPI1_Init(void);
 static void MX_SPI2_Init(void);
 static void MX_USB_OTG_FS_PCD_Init(void);
 static void MX_USART1_UART_Init(void);
-void StartMainTask(void *argument);
-void startAudioTask(void *argument);
-
 /* USER CODE BEGIN PFP */
 extern void jpg_view(char* fn);
 static void usb_write (void);
@@ -128,6 +105,19 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   FRESULT res;
+
+  int8_t rot;
+  static uint32_t voltimer = 0;
+  static uint32_t usbtimer = 0;
+  uint8_t buf[64];
+
+  static button_t pwr_btn;
+  static button_t key1;
+  static button_t key2;
+  static button_t key3;
+  static button_t volup;
+  static button_t voldn;
+  static button_t rot_push;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -169,53 +159,49 @@ int main(void)
   if (res != FR_OK) {printf("f_mount error code: %i\r\n", res);}
   else {printf("f_mount OK\r\n");}
 
+  button_init(&pwr_btn, PWR_BTN_GPIO_Port, PWR_BTN_Pin, pwr_btn_callback, NULL);
+  button_init(&key1, KEY_1_GPIO_Port, KEY_1_Pin, key1_callback, NULL);
+  button_init(&key2, KEY_2_GPIO_Port, KEY_2_Pin, key2_callback, NULL);
+  button_init(&key3, KEY_3_GPIO_Port, KEY_3_Pin, key3_callback, NULL);
+  button_init(&volup, VOL_UP_GPIO_Port, VOL_UP_Pin, volup_callback, NULL);
+  button_init(&voldn, VOL_DN_GPIO_Port, VOL_DN_Pin, voldn_callback, NULL);
+  button_init(&rot_push, ROT_PUSH_GPIO_Port, ROT_PUSH_Pin, rot_push_callback, NULL);
+
   /* USER CODE END 2 */
 
-  /* Init scheduler */
-  osKernelInitialize();
-  /* Create the mutex(es) */
-  /* creation of printfMutex */
-  printfMutexHandle = osMutexNew(&printfMutex_attributes);
-
-  /* USER CODE BEGIN RTOS_MUTEX */
-  /* add mutexes, ... */
-  /* USER CODE END RTOS_MUTEX */
-
-  /* USER CODE BEGIN RTOS_SEMAPHORES */
-  /* add semaphores, ... */
-  /* USER CODE END RTOS_SEMAPHORES */
-
-  /* USER CODE BEGIN RTOS_TIMERS */
-  /* start timers, add new ones, ... */
-  /* USER CODE END RTOS_TIMERS */
-
-  /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
-  /* USER CODE END RTOS_QUEUES */
-
-  /* Create the thread(s) */
-  /* creation of mainTask */
-  mainTaskHandle = osThreadNew(StartMainTask, NULL, &mainTask_attributes);
-
-  /* creation of audioTask */
-  audioTaskHandle = osThreadNew(startAudioTask, NULL, &audioTask_attributes);
-
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
-  /* USER CODE END RTOS_THREADS */
-
-  /* USER CODE BEGIN RTOS_EVENTS */
-  /* add events, ... */
-  /* USER CODE END RTOS_EVENTS */
-
-  /* Start scheduler */
-  osKernelStart();
-
-  /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	rot = rotary_handle();
+	if (rot) printf("Rotary: %d\r\n", rot);
+	button_handle(&pwr_btn);
+	button_handle(&key1);
+	button_handle(&key2);
+	button_handle(&key3);
+	button_handle(&volup);
+	button_handle(&voldn);
+	button_handle(&rot_push);
+
+	//if ( (uint32_t)( HAL_GetTick() - usbtimer) > 10000 ) {
+	//	usbtimer = HAL_GetTick();
+	//	usb_write();
+	//}
+
+	if ( (uint32_t) (HAL_GetTick() - voltimer) > 1000 ) {
+		voltimer = HAL_GetTick();
+
+		HAL_ADC_Start_DMA(&hadc1, &pomiarADC, 1);
+
+		sprintf((char*)buf, "Uptime: %lu", HAL_GetTick()/1000);
+		BSP_LCD_DisplayStringAtLine(0, buf);
+		sprintf((char*)buf, "Battery: %.2fV %s", (3.3*pomiarADC)/4095.0*2, !HAL_GPIO_ReadPin(CHARGING_GPIO_Port, CHARGING_Pin) ? "(Charging)" : "          ");
+		BSP_LCD_DisplayStringAtLine(1, buf);
+
+		BSP_LCD_DrawCircle(100, 100, 30);
+		BSP_LCD_DrawRect(100, 100, 60, 60);
+		BSP_LCD_DrawCircle(160, 160, 30);
+	}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -575,13 +561,13 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA2_Stream0_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
   /* DMA2_Stream3_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA2_Stream3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream3_IRQn);
   /* DMA2_Stream6_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA2_Stream6_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA2_Stream6_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream6_IRQn);
 
 }
@@ -682,7 +668,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(SDIO_CD_GPIO_Port, &GPIO_InitStruct);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI3_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(EXTI3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI3_IRQn);
 
 }
@@ -774,127 +760,16 @@ int _write(int file, char *data, int len)
       return -1;
    }
 
-   osMutexAcquire(printfMutexHandle, 1000);
    HAL_HalfDuplex_EnableTransmitter(&huart1);
    HAL_UART_Transmit(&huart1, (uint8_t*)"\0\0\0\0\0", 5, 1000);				//FIX THAT
    HAL_StatusTypeDef status = HAL_UART_Transmit(&huart1, (uint8_t*)data, len, 1000);
    HAL_HalfDuplex_EnableReceiver(&huart1);
-   osMutexRelease(printfMutexHandle);
 
    // return # of bytes written - as best we can tell
    return (status == HAL_OK ? len : 0);
 }
 
 /* USER CODE END 4 */
-
-/* USER CODE BEGIN Header_StartMainTask */
-/**
-  * @brief  Function implementing the mainTask thread.
-  * @param  argument: Not used
-  * @retval None
-  */
-/* USER CODE END Header_StartMainTask */
-void StartMainTask(void *argument)
-{
-  /* USER CODE BEGIN 5 */
-  int8_t rot;
-  static uint32_t voltimer = 0;
-  uint8_t buf[64];
-
-  static button_t pwr_btn;
-  static button_t key1;
-  static button_t key2;
-  static button_t key3;
-  static button_t volup;
-  static button_t voldn;
-  static button_t rot_push;
-
-  button_init(&pwr_btn, PWR_BTN_GPIO_Port, PWR_BTN_Pin, pwr_btn_callback, NULL);
-  button_init(&key1, KEY_1_GPIO_Port, KEY_1_Pin, key1_callback, NULL);
-  button_init(&key2, KEY_2_GPIO_Port, KEY_2_Pin, key2_callback, NULL);
-  button_init(&key3, KEY_3_GPIO_Port, KEY_3_Pin, key3_callback, NULL);
-  button_init(&volup, VOL_UP_GPIO_Port, VOL_UP_Pin, volup_callback, NULL);
-  button_init(&voldn, VOL_DN_GPIO_Port, VOL_DN_Pin, voldn_callback, NULL);
-  button_init(&rot_push, ROT_PUSH_GPIO_Port, ROT_PUSH_Pin, rot_push_callback, NULL);
-
-  /* Infinite loop */
-  for(;;)
-  {
-	rot = rotary_handle();
-	if (rot) printf("Rotary: %d\r\n", rot);
-	button_handle(&pwr_btn);
-	button_handle(&key1);
-	button_handle(&key2);
-	button_handle(&key3);
-	button_handle(&volup);
-	button_handle(&voldn);
-	button_handle(&rot_push);
-
-	//if ( (uint32_t)( osKernelGetTickCount() - usbtimer) > 10000 ) {
-	//	usbtimer = osKernelGetTickCount();
-	//	usb_write();
-	//}
-
-	if ( (uint32_t) (osKernelGetTickCount() - voltimer) > 1000 ) {
-		voltimer = osKernelGetTickCount();
-
-		HAL_ADC_Start_DMA(&hadc1, &pomiarADC, 1);
-
-		sprintf((char*)buf, "Uptime: %lu", osKernelGetTickCount()/1000);
-		BSP_LCD_DisplayStringAtLine(0, buf);
-		sprintf((char*)buf, "Battery: %.2fV %s", (3.3*pomiarADC)/4095.0*2, !HAL_GPIO_ReadPin(CHARGING_GPIO_Port, CHARGING_Pin) ? "(Charging)" : "          ");
-		BSP_LCD_DisplayStringAtLine(1, buf);
-
-		BSP_LCD_DrawCircle(100, 100, 30);
-		BSP_LCD_DrawRect(100, 100, 60, 60);
-		BSP_LCD_DrawCircle(160, 160, 30);
-	}
-
-	osDelay(20);
-  }
-  /* USER CODE END 5 */
-}
-
-/* USER CODE BEGIN Header_startAudioTask */
-/**
-* @brief Function implementing the audioTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_startAudioTask */
-void startAudioTask(void *argument)
-{
-  /* USER CODE BEGIN startAudioTask */
-  /* Infinite loop */
-  mp3_play("test.mp3");
-  for(;;)
-  {
-	mp3_handle();
-    osDelay(100);
-  }
-  /* USER CODE END startAudioTask */
-}
-
- /**
-  * @brief  Period elapsed callback in non blocking mode
-  * @note   This function is called  when TIM7 interrupt took place, inside
-  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
-  * a global variable "uwTick" used as application time base.
-  * @param  htim : TIM handle
-  * @retval None
-  */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-  /* USER CODE BEGIN Callback 0 */
-
-  /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM7) {
-    HAL_IncTick();
-  }
-  /* USER CODE BEGIN Callback 1 */
-
-  /* USER CODE END Callback 1 */
-}
 
 /**
   * @brief  This function is executed in case of error occurrence.
