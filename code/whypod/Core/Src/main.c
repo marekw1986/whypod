@@ -21,6 +21,7 @@
 #include "main.h"
 #include "fatfs.h"
 #include "libjpeg.h"
+#include "usb_host.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -81,6 +82,8 @@ static void MX_SDIO_SD_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_I2S3_Init(void);
+void MX_USB_HOST_Process(void);
+
 /* USER CODE BEGIN PFP */
 static void usb_write (void);
 extern void jpg_view(char* fn);
@@ -89,6 +92,7 @@ extern void jpg_view(char* fn);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 FATFS FatFS;
+FATFS USBFatFS;
 uint32_t pomiarADC = 0;
 /* USER CODE END 0 */
 
@@ -141,6 +145,7 @@ int main(void)
   MX_LIBJPEG_Init();
   MX_I2C1_Init();
   MX_I2S3_Init();
+  MX_USB_HOST_Init();
   /* USER CODE BEGIN 2 */
   wm8731_init();
 
@@ -151,6 +156,10 @@ int main(void)
   res = f_mount(&FatFS, "0:", 0);
   if (res != FR_OK) {printf("f_mount error code: %i\r\n", res);}
   else {printf("f_mount OK\r\n");}
+
+  res = f_mount(&USBFatFS, "1:", 0);
+  if (res != FR_OK) {printf("USB: f_mount error code: %i\r\n", res);}
+  else {printf("USB: f_mount OK\r\n");}
 
   button_init(&pwr_btn, PWR_BTN_GPIO_Port, PWR_BTN_Pin, pwr_btn_callback, NULL);
   button_init(&key1, KEY1_GPIO_Port, KEY1_Pin, key1_callback, NULL);
@@ -195,7 +204,10 @@ int main(void)
 		printf("Zapis do pliku\r\n");
 		usb_write();
 	}
+
+	wm8731_handle();
     /* USER CODE END WHILE */
+    MX_USB_HOST_Process();
 
     /* USER CODE BEGIN 3 */
   }
@@ -357,7 +369,7 @@ static void MX_I2S3_Init(void)
   hi2s3.Init.Standard = I2S_STANDARD_PHILIPS;
   hi2s3.Init.DataFormat = I2S_DATAFORMAT_16B;
   hi2s3.Init.MCLKOutput = I2S_MCLKOUTPUT_DISABLE;
-  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_22K;
+  hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_44K;
   hi2s3.Init.CPOL = I2S_CPOL_LOW;
   hi2s3.Init.ClockSource = I2S_CLOCK_PLL;
   hi2s3.Init.FullDuplexMode = I2S_FULLDUPLEXMODE_DISABLE;
@@ -392,7 +404,7 @@ static void MX_SDIO_SD_Init(void)
   hsd.Init.ClockPowerSave = SDIO_CLOCK_POWER_SAVE_DISABLE;
   hsd.Init.BusWide = SDIO_BUS_WIDE_1B;
   hsd.Init.HardwareFlowControl = SDIO_HARDWARE_FLOW_CONTROL_DISABLE;
-  hsd.Init.ClockDiv = 4;
+  hsd.Init.ClockDiv = 3;
   /* USER CODE BEGIN SDIO_Init 2 */
 
   /* USER CODE END SDIO_Init 2 */
@@ -567,6 +579,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LCD_BACKLIGHT_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : USBFAULT_Pin */
+  GPIO_InitStruct.Pin = USBFAULT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(USBFAULT_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pin : SDIO_CD_Pin */
   GPIO_InitStruct.Pin = SDIO_CD_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
@@ -633,7 +651,7 @@ static void usb_write (void) {
     FRESULT res;
     FIL file;
 
-    res = f_open(&file, "0:/test.txt", (FA_OPEN_ALWAYS | FA_WRITE));
+    res = f_open(&file, "1:/test.txt", (FA_OPEN_ALWAYS | FA_WRITE));
     if (res != FR_OK) {
         printf("f_open error code: %i\r\n", res);
         return;
@@ -663,7 +681,7 @@ int _write(int file, char *data, int len)
    }
 
    HAL_HalfDuplex_EnableTransmitter(&huart1);
-   HAL_UART_Transmit(&huart1, (uint8_t*)"\0\0\0\0\0", 5, 1000);				//FIX THAT
+   //HAL_UART_Transmit(&huart1, (uint8_t*)"\0\0\0\0\0", 5, 1000);				//FIX THAT
    HAL_StatusTypeDef status = HAL_UART_Transmit(&huart1, (uint8_t*)data, len, 1000);
    HAL_HalfDuplex_EnableReceiver(&huart1);
 

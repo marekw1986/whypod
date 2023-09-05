@@ -78,6 +78,8 @@ void Error_Handler(void);
 #define LCD_RST_GPIO_Port GPIOD
 #define LCD_BACKLIGHT_Pin GPIO_PIN_6
 #define LCD_BACKLIGHT_GPIO_Port GPIOC
+#define USBFAULT_Pin GPIO_PIN_7
+#define USBFAULT_GPIO_Port GPIOC
 #define CHARGING_Pin GPIO_PIN_10
 #define CHARGING_GPIO_Port GPIOA
 #define SDIO_CD_Pin GPIO_PIN_3
